@@ -1,0 +1,16 @@
+[
+    {
+        "name" : "CharSimulator",
+        "file" : "charsim",
+        "extension" : "ipf",
+        "fileVersion" : "v1.0.0",
+        "releaseTag" : "charsim",
+        "unicode" : "🐻",
+        "description" : "In-game character appearance simulator",
+        "tags" : [
+            "ui",
+            "simulator",
+            "appearance"
+        ]
+    }
+]
