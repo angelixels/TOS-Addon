@@ -1,3 +1,4 @@
+-- CharSimulator
 --TODO: Check status_dummypc (GET_PORTRAIT_IMG_NAME, SET_EQUIP_LIST) Check beautyhair (item.ChangeHeadAppearance(hairIndex);)
 
 local acutil = require('acutil');
@@ -9,9 +10,14 @@ local equippableSlot = {
 
 local hairdyeList = {
 	'Default', 'Black', 'Blue', 'Pink', 'White', 'Ash blonde', 'Ruby wine', 'Pastel green', 'Ash grey', 'Light salmon'
-}
+};
 
-local availableEquip = {}; -- [SlotName] = {dropdown index => '', ClassName, ClassName, ...} Dye stored as index => headID instead
+local noEquipClassName = { -- ClassName for no equip case. Empty string indicates no associated ClassName
+	['HELMET'] = 'NoHelmet', ['HAT_T'] = '', ['HAT'] = 'NoHat', ['HAT_L'] = '', ['HAIR'] = 'NoHair', ['LENS'] = '', ['OUTER'] = 'NoOuter',
+	['LH'] = '', ['RH'] = '', ['ARMBAND'] = 'NoArmband'
+};
+
+local availableEquip = {}; -- [SlotName] = {dropdown index => NoEquipClassName, ClassName, ClassName, ...} Dye stored as index => headID instead
 local availableEquipCount = {} -- [SlotName] = count
 local currentEquip = {}; -- [SlotName] = dropdown index
 
@@ -20,6 +26,7 @@ function CHARSIM_INIT_SETTING()
 	for i, slotName in ipairs(equippableSlot) do
 		currentEquip[slotName] = 0;
 	end
+	-- Special case for dye
 	currentEquip['DYE'] = 0;
 end
 
@@ -53,11 +60,11 @@ function CHARSIM_REFRESHLIST()
 	availableEquip = {};
 	for i, slotName in ipairs(equippableSlot) do
 		availableEquip[slotName] = {};
-		availableEquip[slotName][0] = '';
+		availableEquip[slotName][0] = noEquipClassName[slotName];
 		availableEquipCount[slotName] = 1;
 	end
 
-	-- Refresh equip list
+	-- Refresh equip list.
 	local itemClassList, itemClassCount = GetClassList("Item");
 	for i=0, itemClassCount-1 do
 		local itemClass = GetClassByIndexFromList(itemClassList, i);
@@ -75,9 +82,12 @@ function CHARSIM_REFRESHLIST()
 			end
 			-- Set dropdown index => ClassName map
 			if targetSlot ~= nil then
-				local dropdownIndex = availableEquipCount[targetSlot];
-				availableEquip[targetSlot][dropdownIndex] = itemClass.ClassName;
-				availableEquipCount[targetSlot] = availableEquipCount[targetSlot]+1;
+				-- DO NOT add "no equip" case to availableEquip as it is duplicated
+				if noEquipClassName[targetSlot] ~= itemClass.ClassName then
+					local dropdownIndex = availableEquipCount[targetSlot];
+					availableEquip[targetSlot][dropdownIndex] = itemClass.ClassName;
+					availableEquipCount[targetSlot] = availableEquipCount[targetSlot]+1;
+				end
 			end
 		end
 	end
@@ -91,7 +101,7 @@ function CHARSIM_REFRESHLIST()
 			dropdown:ClearItems();
 			for j=0, availableEquipCount[slotName]-1 do
 				if j == 0 then
-					dropdown:AddItem(0, 'Default');
+					dropdown:AddItem(0, 'None');
 				else
 					local itemClass = GetClass("Item",availableEquip[slotName][j]);
 					local itemName = dictionary.ReplaceDicIDInCompStr(itemClass.Name);
