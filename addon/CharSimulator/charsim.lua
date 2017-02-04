@@ -1,23 +1,13 @@
--- CharSimulator
 --TODO: Check status_dummypc (GET_PORTRAIT_IMG_NAME, SET_EQUIP_LIST) Check beautyhair (item.ChangeHeadAppearance(hairIndex);)
 
 local acutil = require('acutil');
 CHAT_SYSTEM("Charsim loaded! Use /sim to open simulator");
 
 local equippableSlot = {
-	'HELMET', 'HAT_T', 'HAT', 'HAT_L', 'HAIR', 'LENS', 'OUTER', 'LH', 'RH', 'ARMBAND'
+	'HELMET', 'HAT_T', 'HAT', 'HAT_L', 'HAIR', 'LENS', 'OUTER', 'LH', 'RH', 'ARMBAND', 'DYE'
 };
 
-local hairdyeList = {
-	'Default', 'Black', 'Blue', 'Pink', 'White', 'Ash blonde', 'Ruby wine', 'Pastel green', 'Ash grey', 'Light salmon'
-};
-
-local noEquipClassName = { -- ClassName for no equip case. Empty string indicates no associated ClassName
-	['HELMET'] = 'NoHelmet', ['HAT_T'] = '', ['HAT'] = 'NoHat', ['HAT_L'] = '', ['HAIR'] = 'NoHair', ['LENS'] = '', ['OUTER'] = 'NoOuter',
-	['LH'] = '', ['RH'] = '', ['ARMBAND'] = 'NoArmband'
-};
-
-local availableEquip = {}; -- [SlotName] = {dropdown index => NoEquipClassName, ClassName, ClassName, ...} Dye stored as index => headID instead
+local availableEquip = {}; -- [SlotName] = {dropdown index => '', ClassName, ClassName, ...}
 local availableEquipCount = {} -- [SlotName] = count
 local currentEquip = {}; -- [SlotName] = dropdown index
 
@@ -26,8 +16,6 @@ function CHARSIM_INIT_SETTING()
 	for i, slotName in ipairs(equippableSlot) do
 		currentEquip[slotName] = 0;
 	end
-	-- Special case for dye
-	currentEquip['DYE'] = 0;
 end
 
 -- Check for character equipment compatibility. Use ies string
@@ -60,30 +48,35 @@ function CHARSIM_REFRESHLIST()
 	availableEquip = {};
 	for i, slotName in ipairs(equippableSlot) do
 		availableEquip[slotName] = {};
-		availableEquip[slotName][0] = noEquipClassName[slotName];
+		availableEquip[slotName][0] = '';
 		availableEquipCount[slotName] = 1;
 	end
 
-	-- Refresh equip list.
+	-- Refresh equip list
 	local itemClassList, itemClassCount = GetClassList("Item");
 	for i=0, itemClassCount-1 do
 		local itemClass = GetClassByIndexFromList(itemClassList, i);
-		local defaultEqpSlot = TryGetProp(itemClass,'DefaultEqpSlot');
-		local usejob = TryGetProp(itemClass,'UseJob');
-		local usegender = TryGetProp(itemClass,'UseGender');
-		if defaultEqpSlot ~= nil and usejob ~= nil and usegender ~= nil and CHARSIM_CHECKEQUIP_COMPAT(job,gender,usejob,usegender) then
-			-- Filter slot
-			local targetSlot = nil;
-			for j, slotName in ipairs(equippableSlot) do
-				if slotName == defaultEqpSlot then
-					targetSlot = slotName;
-					break;
+		if string.find(itemClass.ClassName, '_hairColor') ~= nil then
+			-- Hair color is handled here, since we cant test slotName against anything in ies to determine it
+			local dropdownIndex = availableEquipCount['DYE'];
+			availableEquip['DYE'][dropdownIndex] = itemClass.ClassName;
+			availableEquipCount['DYE'] = availableEquipCount['DYE']+1;
+		else
+			-- Something else, filter for valid equip
+			local defaultEqpSlot = TryGetProp(itemClass,'DefaultEqpSlot');
+			local usejob = TryGetProp(itemClass,'UseJob');
+			local usegender = TryGetProp(itemClass,'UseGender');
+			if defaultEqpSlot ~= nil and usejob ~= nil and usegender ~= nil and CHARSIM_CHECKEQUIP_COMPAT(job,gender,usejob,usegender) then
+				-- Filter slot
+				local targetSlot = nil;
+				for j, slotName in ipairs(equippableSlot) do
+					if slotName == defaultEqpSlot then
+						targetSlot = slotName;
+						break;
+					end
 				end
-			end
-			-- Set dropdown index => ClassName map
-			if targetSlot ~= nil then
-				-- DO NOT add "no equip" case to availableEquip as it is duplicated
-				if noEquipClassName[targetSlot] ~= itemClass.ClassName then
+				-- Set dropdown index => ClassName map
+				if targetSlot ~= nil then
 					local dropdownIndex = availableEquipCount[targetSlot];
 					availableEquip[targetSlot][dropdownIndex] = itemClass.ClassName;
 					availableEquipCount[targetSlot] = availableEquipCount[targetSlot]+1;
@@ -101,7 +94,7 @@ function CHARSIM_REFRESHLIST()
 			dropdown:ClearItems();
 			for j=0, availableEquipCount[slotName]-1 do
 				if j == 0 then
-					dropdown:AddItem(0, 'None');
+					dropdown:AddItem(0, 'Default');
 				else
 					local itemClass = GetClass("Item",availableEquip[slotName][j]);
 					local itemName = dictionary.ReplaceDicIDInCompStr(itemClass.Name);
@@ -118,21 +111,6 @@ function CHARSIM_REFRESHLIST()
 			end
 		end
 	end
-
-	-- Special case for dye
-	local dyeDropdown = GET_CHILD_RECURSIVELY(frame, 'dropdown_DYE', 'ui:CDropList');
-	if dyeDropdown:GetItemCount() < 2 then
-		availableEquip['DYE'] = {};
-		dyeDropdown:ClearItems();
-		local index = 0;
-		local headID = 203;
-		for i, dyeName in ipairs(hairdyeList) do
-			availableEquip['DYE'][index] = headID;
-			dyeDropdown:AddItem(index, dyeName);
-			index = index+1;
-			headID = headID+1;
-		end
-	end
 end
 
 -- Update appearance PC with specified rotation (0:reset 1:CCW 2:CW)
@@ -143,18 +121,31 @@ function CHARSIM_UPDATE_APC(rotation)
     end
     
     local apc = pcSession:GetPCDummyApc();
+    local hairName = "None";
+    local hairColor = "default";
     for i, slotName in ipairs(equippableSlot) do
     	local dropdownIndex = currentEquip[slotName];
     	local className = availableEquip[slotName][dropdownIndex];
-    	if className == '' then
-    		apc:SetEquipItem(item.GetEquipSpotNum(slotName), 0);
+    	if slotName == 'DYE' then
+    		if className ~= '' then
+    			local itemClass = GetClass("Item",className);
+    			hairColor = itemClass.StringArg;
+    		end
     	else
-    		local itemClass = GetClass("Item",className);
-    		apc:SetEquipItem(item.GetEquipSpotNum(slotName), itemClass.ClassID);
+    		if className == '' then
+	    		apc:SetEquipItem(item.GetEquipSpotNum(slotName), 0);
+    		else
+    			local itemClass = GetClass("Item",className);
+    			apc:SetEquipItem(item.GetEquipSpotNum(slotName), itemClass.ClassID);
+    			if(slotName == 'HAIR') then
+    				hairName = itemClass.StringArg;
+	    		end
+    		end
     	end
     end
     -- Special case for dye
-    apc:SetHeadType(availableEquip['DYE'][currentEquip['DYE']]);
+	local headIndexByItem = ui.GetHeadIndexByXML(apc:GetGender(), hairName, hairColor);
+	apc:SetHeadType(headIndexByItem);
 
     local imgName = ui.CaptureMyFullStdImageByAPC(apc,rotation);
 

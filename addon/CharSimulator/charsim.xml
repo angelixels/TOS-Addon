@@ -15,11 +15,11 @@
         <richtext name="label_DYE" rect="0 0 200 24" margin="600 530 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair dye{/}{/}{/}"/>
         <droplist name="dropdown_DYE" rect="0 0 200 24" margin="600 560 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-		<richtext name="label_HAT_T" rect="0 0 200 24" margin="600 30 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 1{/}{/}{/}"/>
-    	<droplist name="dropdown_HAT_T" rect="0 0 200 24" margin="600 60 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+    	<richtext name="label_HAT" rect="0 0 200 24" margin="600 30 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 1{/}{/}{/}"/>
+    	<droplist name="dropdown_HAT" rect="0 0 200 24" margin="600 60 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_HAT" rect="0 0 200 24" margin="600 130 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 2{/}{/}{/}"/>
-    	<droplist name="dropdown_HAT" rect="0 0 200 24" margin="600 160 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+        <richtext name="label_HAT_T" rect="0 0 200 24" margin="600 130 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 2{/}{/}{/}"/>
+        <droplist name="dropdown_HAT_T" rect="0 0 200 24" margin="600 160 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
     	<richtext name="label_HAT_L" rect="0 0 200 24" margin="600 230 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 3{/}{/}{/}"/>
     	<droplist name="dropdown_HAT_L" rect="0 0 200 24" margin="600 260 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
