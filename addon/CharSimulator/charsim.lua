@@ -56,30 +56,33 @@ function CHARSIM_REFRESHLIST()
 	local itemClassList, itemClassCount = GetClassList("Item");
 	for i=0, itemClassCount-1 do
 		local itemClass = GetClassByIndexFromList(itemClassList, i);
-		if string.find(itemClass.ClassName, '_hairColor') ~= nil then
-			-- Hair color is handled here, since we cant test slotName against anything in ies to determine it
-			local dropdownIndex = availableEquipCount['DYE'];
-			availableEquip['DYE'][dropdownIndex] = itemClass.ClassName;
-			availableEquipCount['DYE'] = availableEquipCount['DYE']+1;
-		else
-			-- Something else, filter for valid equip
-			local defaultEqpSlot = TryGetProp(itemClass,'DefaultEqpSlot');
-			local usejob = TryGetProp(itemClass,'UseJob');
-			local usegender = TryGetProp(itemClass,'UseGender');
-			if defaultEqpSlot ~= nil and usejob ~= nil and usegender ~= nil and CHARSIM_CHECKEQUIP_COMPAT(job,gender,usejob,usegender) then
-				-- Filter slot
-				local targetSlot = nil;
-				for j, slotName in ipairs(equippableSlot) do
-					if slotName == defaultEqpSlot then
-						targetSlot = slotName;
-						break;
+		--For some reason, there are items that we can GetClassByIndexFromList(classList, index) but cannot GetClass(ies, className)
+		if GetClass("Item",itemClass.ClassName) ~= nil then
+			if string.find(itemClass.ClassName, '_hairColor') ~= nil then
+				-- Hair color is handled here, since we cant test slotName against anything in ies to determine it
+				local dropdownIndex = availableEquipCount['DYE'];
+				availableEquip['DYE'][dropdownIndex] = itemClass.ClassName;
+				availableEquipCount['DYE'] = availableEquipCount['DYE']+1;
+			else
+				-- Something else, filter for valid equip
+				local defaultEqpSlot = TryGetProp(itemClass,'DefaultEqpSlot');
+				local usejob = TryGetProp(itemClass,'UseJob');
+				local usegender = TryGetProp(itemClass,'UseGender');
+				if defaultEqpSlot ~= nil and usejob ~= nil and usegender ~= nil and CHARSIM_CHECKEQUIP_COMPAT(job,gender,usejob,usegender) then
+					-- Filter slot
+					local targetSlot = nil;
+					for j, slotName in ipairs(equippableSlot) do
+						if slotName == defaultEqpSlot then
+							targetSlot = slotName;
+							break;
+						end
 					end
-				end
-				-- Set dropdown index => ClassName map
-				if targetSlot ~= nil then
-					local dropdownIndex = availableEquipCount[targetSlot];
-					availableEquip[targetSlot][dropdownIndex] = itemClass.ClassName;
-					availableEquipCount[targetSlot] = availableEquipCount[targetSlot]+1;
+					-- Set dropdown index => ClassName map
+					if targetSlot ~= nil then
+						local dropdownIndex = availableEquipCount[targetSlot];
+						availableEquip[targetSlot][dropdownIndex] = itemClass.ClassName;
+						availableEquipCount[targetSlot] = availableEquipCount[targetSlot]+1;
+					end
 				end
 			end
 		end
