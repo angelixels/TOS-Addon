@@ -1,5 +1,3 @@
---TODO: Check status_dummypc (GET_PORTRAIT_IMG_NAME, SET_EQUIP_LIST) Check beautyhair (item.ChangeHeadAppearance(hairIndex);)
-
 local acutil = require('acutil');
 CHAT_SYSTEM("Charsim loaded! Use /sim to open simulator");
 
