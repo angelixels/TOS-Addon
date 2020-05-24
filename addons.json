@@ -4,7 +4,7 @@
         "file" : "charsim",
         "extension" : "ipf",
         "fileVersion" : "v2.0.0",
-        "releaseTag" : "charsim",
+        "releaseTag" : "2.0.0",
         "unicode" : "🐻",
         "description" : "In-game character appearance simulator",
         "tags" : [
