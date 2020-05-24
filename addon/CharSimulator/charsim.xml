@@ -6,43 +6,77 @@
     <layer layerlevel="90"/>
     <controls>
     	<groupbox name="bg" rect="0 0 1200 720" margin="0 0 0 0" layout_gravity="left top" draw="true" hittestbox="false" resizebyparent="false" skin="test_frame_low"/>
-    	<groupbox name="previewbg" rect="0 0 500 600" margin="30 30 0 0" layout_gravity="left top" draw="true" hittestbox="false" resizebyparent="false" skin="test_frame_midle_light"/>
-    		<picture name="apc" parent="previewbg" rect="0 0 500 960" margin="0 100 0 0" layout_gravity="center center" hittest="false" stretch="true"/>
+    	<groupbox name="previewbg" rect="0 0 500 660" margin="30 30 0 0" layout_gravity="left top" draw="true" hittestbox="false" resizebyparent="false" skin="test_frame_midle_light"/>
+    		<picture name="apc" parent="previewbg" rect="0 0 500 960" margin="0 80 0 0" layout_gravity="center center" hittest="false" stretch="true"/>
 
-    	<button name="rotCW" margin="30 640  0 0" rect="0 0 64 64" layout_gravity="left top" image="button_left_select2" clicksound="button_click_big" oversound="button_over" MouseOnAnim="btn_mouseover" MouseOffAnim="btn_mouseoff" LBtnUpScp="CHARSIM_UPDATEROTATION_CW"/>
-        <button name="rotCCW" margin="466 640  0 0" rect="0 0 64 64" layout_gravity="left top" image="button_right_select2" clicksound="button_click_big" oversound="button_over" MouseOnAnim="btn_mouseover" MouseOffAnim="btn_mouseoff" LBtnUpScp="CHARSIM_UPDATEROTATION_CCW"/>
+    	<button name="rotCW" margin="600 640 0 0" rect="0 0 64 64" layout_gravity="left top" image="button_left_select2" clicksound="button_click_big" oversound="button_over" MouseOnAnim="btn_mouseover" MouseOffAnim="btn_mouseoff" LBtnUpScp="CHARSIM_UPDATEROTATION_CW"/>
+        <button name="rotCCW" margin="680 640 0 0" rect="0 0 64 64" layout_gravity="left top" image="button_right_select2" clicksound="button_click_big" oversound="button_over" MouseOnAnim="btn_mouseover" MouseOffAnim="btn_mouseoff" LBtnUpScp="CHARSIM_UPDATEROTATION_CCW"/>
 
-        <richtext name="label_DYE" rect="0 0 200 24" margin="600 530 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair dye{/}{/}{/}"/>
-        <droplist name="dropdown_DYE" rect="0 0 200 24" margin="600 560 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_HAT" rect="0 0 200 24" margin="600 30 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 1{/}{/}{/}"/>
-    	<droplist name="dropdown_HAT" rect="0 0 200 24" margin="600 60 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-        <richtext name="label_HAT_T" rect="0 0 200 24" margin="600 130 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 2{/}{/}{/}"/>
-        <droplist name="dropdown_HAT_T" rect="0 0 200 24" margin="600 160 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+    	<richtext name="label_HAT" rect="600 30 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 1{/}{/}{/}"/>
+    	<droplist name="dropdown_HAT" rect="600 60 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_HAT_L" rect="0 0 200 24" margin="600 230 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 3{/}{/}{/}"/>
-    	<droplist name="dropdown_HAT_L" rect="0 0 200 24" margin="600 260 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_HAIR" rect="0 0 200 24" margin="600 330 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair{/}{/}{/}"/>
-    	<droplist name="dropdown_HAIR" rect="0 0 200 24" margin="600 360 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_LENS" rect="0 0 200 24" margin="600 430 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Lens{/}{/}{/}"/>
-    	<droplist name="dropdown_LENS" rect="0 0 200 24" margin="600 460 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_HELMET" rect="0 0 200 24" margin="900 30 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Helmet{/}{/}{/}"/>
-    	<droplist name="dropdown_HELMET" rect="0 0 200 24" margin="900 60 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+        <richtext name="label_HAT_T" rect="600 110 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 2{/}{/}{/}"/>
+        <droplist name="dropdown_HAT_T" rect="600 140 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_OUTER" rect="0 0 200 24" margin="900 130 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Costume{/}{/}{/}"/>
-    	<droplist name="dropdown_OUTER" rect="0 0 200 24" margin="900 160 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_ARMBAND" rect="0 0 200 24" margin="900 230 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Armband{/}{/}{/}"/>
-    	<droplist name="dropdown_ARMBAND" rect="0 0 200 24" margin="900 260 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_LH" rect="0 0 200 24" margin="900 330 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Left hand{/}{/}{/}"/>
-    	<droplist name="dropdown_LH" rect="0 0 200 24" margin="900 360 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+    	<richtext name="label_HAT_L" rect="600 190 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair costume 3{/}{/}{/}"/>
+    	<droplist name="dropdown_HAT_L" rect="600 220 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
-    	<richtext name="label_RH" rect="0 0 200 24" margin="900 430 0 0" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Right hand{/}{/}{/}"/>
-    	<droplist name="dropdown_RH" rect="0 0 200 24" margin="900 460 0 0" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+
+
+    	<richtext name="label_HAIR" rect="600 270 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair{/}{/}{/}"/>
+    	<droplist name="dropdown_HAIR" rect="600 300 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP_HAIR" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+
+
+
+    	<richtext name="label_LENS" rect="600 350 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Lens{/}{/}{/}"/>
+    	<droplist name="dropdown_LENS" rect="600 380 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+
+
+
+        <richtext name="label_DYE" rect="600 430 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Hair dye{/}{/}{/}"/>
+        <droplist name="dropdown_DYE" rect="600 460 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+
+
+
+    	<richtext name="label_HELMET" rect="900 30 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Helmet{/}{/}{/}"/>
+    	<droplist name="dropdown_HELMET" rect="900 60 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+
+
+
+    	<richtext name="label_OUTER" rect="900 110 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Costume{/}{/}{/}"/>
+    	<droplist name="dropdown_OUTER" rect="900 140 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+
+
+
+    	<richtext name="label_ARMBAND" rect="900 190 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Armband{/}{/}{/}"/>
+    	<droplist name="dropdown_ARMBAND" rect="900 220 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+
+
+
+    	<richtext name="label_LH" rect="900 270 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Left hand{/}{/}{/}"/>
+    	<droplist name="dropdown_LH" rect="900 300 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+
+
+
+    	<richtext name="label_RH" rect="900 350 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Right hand{/}{/}{/}"/>
+    	<droplist name="dropdown_RH" rect="900 380 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+
+
+        <richtext name="label_WING" rect="900 430 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Wings{/}{/}{/}"/>
+        <droplist name="dropdown_WING" rect="900 460 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
+        
+
+
+
+        <button name="btn_clear" rect="810 640 140 32" caption="Try it!" LBtnUpScp="CHARSIM_TRY_ON"/>
+
+        <button name="btn_clear_eq" rect="960 640 140 32" caption="Clear" LBtnUpScp="CHARSIM_CLEAR_APPEARANCE"/>
     </controls>
 </uiframe>
