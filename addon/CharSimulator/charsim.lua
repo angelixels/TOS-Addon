@@ -1,5 +1,4 @@
 local acutil = require('acutil');
-CHAT_SYSTEM("CharSimulator loaded! Use /sim to open simulator");
 
 _G['ADDONS'] = _G['ADDONS'] or {};
 _G['ADDONS']['CHARSIM'] = _G['ADDONS']['CHARSIM'] or {};
@@ -49,7 +48,7 @@ function CHARSIM_INIT_SETTING()
 end
 
 -- Check for character equipment compatibility. Use ies string
-function CHARSIM_CHECKEQUIP_COMPAT(myjobStr, mygenderStr, equipjob, equipgender)
+function CHARSIM_CHECKEQUIP_COMPAT(myjobStr, mygenderStr, equipjob, equipgender, slot, name)
 	local jobCompat = false;
 	local genderCompat = false;
 	if equipjob == 'All' or string.find(equipjob, myjobStr) then
@@ -57,6 +56,9 @@ function CHARSIM_CHECKEQUIP_COMPAT(myjobStr, mygenderStr, equipjob, equipgender)
 	end
 	if equipgender == 'Both' or equipgender == mygenderStr then
 		genderCompat = true;
+	end
+	if slot == 'RH' then
+		print(name .. (jobCompat and 'true' or 'false') .. ' ' .. (genderCompat and 'true' or 'false'));
 	end
 	return jobCompat and genderCompat;
 end
@@ -95,10 +97,15 @@ function CHARSIM_REFRESHLIST()
 			if defaultEqpSlot ~= nil and usejob ~= nil and usegender ~= nil and CHARSIM_CHECKEQUIP_COMPAT(job,gender,usejob,usegender) then
 				-- Filter slot
 				local targetSlot = nil;
-				for j, slotName in ipairs(equippableSlot) do
-					if slotName == defaultEqpSlot then
-						targetSlot = slotName;
-						break;
+				if defaultEqpSlot == 'RH LH' then
+					-- Sword has special type, equip to RH instead
+					targetSlot = 'RH';
+				else
+					for j, slotName in ipairs(equippableSlot) do
+						if slotName == defaultEqpSlot then
+							targetSlot = slotName;
+							break;
+						end
 					end
 				end
 				-- Set dropdown index => ClassName map
@@ -236,10 +243,12 @@ function CHARSIM_UPDATE_PLAYER()
 	if g.config[key] ~= nil then
 		local conf = g.config[key];
 		for i, slotName in ipairs(equippableSlot) do
-			if conf[slotName] ~= nil then
-				GetMyActor():GetSystem():ChangeEquipApperance(item.GetEquipSpotNum(slotName), conf[slotName]);
-			else
-				GetMyActor():GetSystem():ChangeEquipApperance(item.GetEquipSpotNum(slotName), 0);
+			if slotName ~= "LH" or conf['_sub'] then
+				if conf[slotName] ~= nil then
+					GetMyActor():GetSystem():ChangeEquipApperance(item.GetEquipSpotNum(slotName), conf[slotName]);
+				else
+					GetMyActor():GetSystem():ChangeEquipApperance(item.GetEquipSpotNum(slotName), 0);
+				end
 			end
 		end
 		if conf['DYE'] ~= nil then
@@ -249,7 +258,9 @@ function CHARSIM_UPDATE_PLAYER()
 		end
 	else
 		for i, slotName in ipairs(equippableSlot) do
-			GetMyActor():GetSystem():ChangeEquipApperance(item.GetEquipSpotNum(slotName), 0);
+			if slotName ~= "LH" then
+				GetMyActor():GetSystem():ChangeEquipApperance(item.GetEquipSpotNum(slotName), 0);
+			end
 		end
 		item.ChangeHeadAppearance( session.GetMySession():GetPCApc():GetHeadType() );
 	end
@@ -342,11 +353,36 @@ function CHARSIM_CMD(command)
 	CHARSIM_INIT_SETTING();
 	CHARSIM_REFRESHLIST();
 	if #command > 0 then
-		local refreshRate = tonumber(table.remove(command, 1));
-		if refreshRate >= 0 then
+		local subcmd = table.remove(command, 1);
+		if subcmd == "rate" and #command > 0 then
+			local refreshRate = tonumber(table.remove(command, 1));
 			g.config['_rate'] = refreshRate;
-			CHAT_SYSTEM("CharSimulator set refresh rate="..refreshRate);
+			if refreshRate >= 0 then
+				CHAT_SYSTEM("CharSimulator : set refresh rate="..refreshRate);
+			else
+				CHAT_SYSTEM("CharSimulator : turn off 'try on' refresh");
+			end
 			CHARSIM_SAVE();
+		elseif subcmd == "sub" then
+			local handle = session.GetMyHandle();
+			local key = info.GetName(handle)..' '..info.GetFamilyName(handle)..'_eq';
+			if g.config[key] == nil or g.config[key]['_sub'] == nil then
+				if g.config[key] == nil then
+					g.config[key] = {};
+				end
+				g.config[key]['_sub'] = true;
+				CHAT_SYSTEM("CharSimulator : 'try on' sub equip display turned ON for " .. info.GetName(handle));
+			else
+				g.config[key]['_sub'] = nil;
+				CHAT_SYSTEM("CharSimulator : 'try on' sub equip display turned OFF for " .. info.GetName(handle));
+			end
+			CHAT_SYSTEM('You may need to switch channel or map to take effect');
+			CHARSIM_SAVE();
+		else
+			CHAT_SYSTEM("CharSimulator : Available commands are:");
+			CHAT_SYSTEM("/sim : toggle simulator UI");
+			CHAT_SYSTEM("/sim rate [number] : set 'try on' refresh rate. 0 = refresh every frames. -1 = disable refresh");
+			CHAT_SYSTEM("/sim sub : toggle 'try on' sub equip display. Turning on can make some sub equip unusable");
 		end
 	else
 		CHARSIM_UPDATE_APC(0);
@@ -357,6 +393,7 @@ end
 
 function CHARSIM_ON_INIT(addon, frame)
 	acutil.slashCommand('/sim',CHARSIM_CMD);
+	CHAT_SYSTEM("CharSimulator loaded! Use /sim to open simulator. For help, use /sim help");
 
 	addon:RegisterMsg("GAME_START_3SEC", "CHARSIM_LOAD");
 	addon:RegisterMsg("FPS_UPDATE", "CHARSIM_FPSUPDATE");

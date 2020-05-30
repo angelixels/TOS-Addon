@@ -60,12 +60,12 @@
 
 
 
-    	<richtext name="label_LH" rect="900 270 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Left hand{/}{/}{/}"/>
+    	<richtext name="label_LH" rect="900 270 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Sub hand{/}{/}{/}"/>
     	<droplist name="dropdown_LH" rect="900 300 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
 
 
-    	<richtext name="label_RH" rect="900 350 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Right hand{/}{/}{/}"/>
+    	<richtext name="label_RH" rect="900 350 200 24" layout_gravity="left top" format="{@st41c}{#415b71}{s20}Main hand{/}{/}{/}"/>
     	<droplist name="dropdown_RH" rect="900 380 200 24" layout_gravity="left top" SelectScp="CHARSIM_APPLYEQUIP" clicksound="button_click_big_2" font="white_20_ol" frametextalign="left" oversound="button_over" skin="droplist_normal" textalign="left center" textoffset="10 0" visibleline="11"/>
 
 
