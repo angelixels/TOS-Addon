@@ -9,7 +9,7 @@ This is an in-game character **appearance** simulator that allow you to preview 
 ### v2.0 Update
 Fix for EP12 patch (as of 2020/05/24).
 
-![SampleSS](https://cloud.githubusercontent.com/assets/13028773/18630836/fd9b4c2a-7e98-11e6-9241-dd790c0c4db8.png)
+![SampleSS](https://user-images.githubusercontent.com/13028773/83333683-ee66d980-a2cb-11ea-8553-b12d6bde7e56.png)
 
 # Installation
-Use [Addon Manager](https://github.com/MizukiBelhi/Addon-Manager) and you are good to go.
+Use Addon Manager from either [this](https://github.com/JTosAddon/Tree-of-Savior-Addon-Manager) or [this](https://github.com/MizukiBelhi/Addon-Manager) and you are good to go.
