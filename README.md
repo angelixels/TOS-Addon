@@ -1,6 +1,9 @@
 # CharSimulator
 This is an in-game character **appearance** simulator that allow you to preview costume and stuff on your current character (dye and lense included) with larger image. You can also trying costume in action with 'try on'. See in-game help for usage. Enjoy!
 
+### v2.0.2 Update
+- Fix "/sim sub" setting being removed when changing/clearing simulated equipment
+
 ### v2.0.1 Update
 - Add in-game help
 - Add toggle for sub equipment 'try on' to prevent addon causing some sub equipments unusable
