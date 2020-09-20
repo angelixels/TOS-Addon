@@ -299,7 +299,11 @@ function CHARSIM_TRY_ON(frame)
 	-- Populate config with setup from UI
 	local handle = session.GetMyHandle();
 	local key = info.GetName(handle)..' '..info.GetFamilyName(handle)..'_eq';
-	g.config[key] = {};
+	if g.config[key] and g.config[key]['_sub'] then
+		g.config[key] = { ['_sub'] = true };
+	else
+		g.config[key] = {};
+	end
 	for i, slotName in ipairs(equippableSlot) do
 		local eqClassName = availableEquip[slotName][currentEquip[slotName]].value;
 		local classIdFound = false;
@@ -326,7 +330,11 @@ end
 function CHARSIM_CLEAR_APPEARANCE(frame)
 	local handle = session.GetMyHandle();
 	local key = info.GetName(handle)..' '..info.GetFamilyName(handle)..'_eq';
-	g.config[key] = nil;
+	if g.config[key] and g.config[key]['_sub'] then
+		g.config[key] = { ['_sub'] = true };
+	else
+		g.config[key] = nil;
+	end
 	CHARSIM_SAVE();
 	CHARSIM_UPDATE_PLAYER();
 end
