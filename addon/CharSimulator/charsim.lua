@@ -238,6 +238,7 @@ end
 
 -- Update player characte appearance using config
 function CHARSIM_UPDATE_PLAYER()
+	--[[
 	local handle = session.GetMyHandle();
 	local key = info.GetName(handle)..' '..info.GetFamilyName(handle)..'_eq';
 	if g.config[key] ~= nil then
@@ -258,12 +259,14 @@ function CHARSIM_UPDATE_PLAYER()
 		end
 	else
 		for i, slotName in ipairs(equippableSlot) do
+			print(slotName);
 			if slotName ~= "LH" then
 				GetMyActor():GetSystem():ChangeEquipApperance(item.GetEquipSpotNum(slotName), 0);
 			end
 		end
 		item.ChangeHeadAppearance( session.GetMySession():GetPCApc():GetHeadType() );
 	end
+	--]]
 end
 
 
@@ -405,4 +408,8 @@ function CHARSIM_ON_INIT(addon, frame)
 
 	addon:RegisterMsg("GAME_START_3SEC", "CHARSIM_LOAD");
 	addon:RegisterMsg("FPS_UPDATE", "CHARSIM_FPSUPDATE");
+end
+
+for key,value in pairs(getmetatable(GetMyPCObject())) do
+    print(key, value)
 end

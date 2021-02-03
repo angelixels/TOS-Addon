@@ -75,7 +75,7 @@
 
 
 
-        <button name="btn_clear" rect="810 640 140 32" caption="Try it!" LBtnUpScp="CHARSIM_TRY_ON"/>
+        
 
         <button name="btn_clear_eq" rect="960 640 140 32" caption="Clear" LBtnUpScp="CHARSIM_CLEAR_APPEARANCE"/>
     </controls>
